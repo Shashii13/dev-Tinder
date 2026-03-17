@@ -1,6 +1,11 @@
+import "./App.css";
+
 function App() {
   return (
-    <h1>DevTinder 💖</h1>
+    <div className="app">
+      <h1 className="logo">DevTinder 💖</h1>
+      <p className="tagline">Connect with developers around you</p>
+    </div>
   );
 }
 
