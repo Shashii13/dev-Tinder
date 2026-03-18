@@ -78,5 +78,33 @@ router.post("/review/:status/:requestId", auth, async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 });
+// ✅ Get Received Requests (people who sent you requests)
+router.get("/requests/received", auth, async (req, res) => {
+  try {
+    const requests = await ConnectionRequest.find({
+      toUserId: req.user._id,
+      status: "interested",
+    }).populate("fromUserId", "firstName lastName bio skills");
+
+    res.json(requests);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+
+// ✅ Get Sent Requests (requests you sent)
+router.get("/requests/sent", auth, async (req, res) => {
+  try {
+    const requests = await ConnectionRequest.find({
+      fromUserId: req.user._id,
+      status: "interested",
+    }).populate("toUserId", "firstName lastName bio skills");
+
+    res.json(requests);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
 
 module.exports = router;
