@@ -1,3 +1,4 @@
+import Requests from "./pages/Requests";
 import Profile from "./pages/Profile";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/requests" element={<Requests />} />
       </Routes>
     </BrowserRouter>
   );
