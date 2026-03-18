@@ -58,5 +58,14 @@ router.post("/login", async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 });
+ 
+
+router.post("/logout", (req, res) => {
+  res.cookie("token", null, {
+    expires: new Date(Date.now()),
+  });
+
+  res.json({ message: "Logged out successfully" });
+});
 
 module.exports = router;

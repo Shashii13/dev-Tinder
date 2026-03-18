@@ -22,6 +22,11 @@ app.get("/", (req, res) => {
   res.send("DevTinder API is running 🚀");
 });
 app.use("/api/auth", authRoutes);
+const auth = require("./middleware/auth");
+
+app.get("/api/profile", auth, (req, res) => {
+  res.json({ user: req.user });
+});
 
 
 const PORT = process.env.PORT || 3000;
