@@ -1,4 +1,6 @@
+const feedRoutes = require("./routes/feed");
 const profileRoutes = require("./routes/profile");
+const connectionRoutes = require("./routes/connection");
 require("dotenv").config();
 
 const express = require("express");
@@ -24,6 +26,8 @@ app.get("/", (req, res) => {
 });
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/connection", connectionRoutes);
+app.use("/api/feed", feedRoutes);
 const auth = require("./middleware/auth");
 
 app.get("/api/profile", auth, (req, res) => {
