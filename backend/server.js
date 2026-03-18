@@ -1,3 +1,4 @@
+const profileRoutes = require("./routes/profile");
 require("dotenv").config();
 
 const express = require("express");
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
   res.send("DevTinder API is running 🚀");
 });
 app.use("/api/auth", authRoutes);
+app.use("/api/profile", profileRoutes);
 const auth = require("./middleware/auth");
 
 app.get("/api/profile", auth, (req, res) => {
