@@ -65,5 +65,32 @@ cd devtinder
 ### 🧑‍💻 Feed
 
 - `GET /api/feed`
+---
 
+## 🚧 Future Improvements
+
+- 💬 Real-time chat (Socket.io)
+- 🔔 Notifications system
+- 📸 Profile image upload (Cloudinary)
+- 🔍 Advanced filtering (skills, location)
+- ❤️ Match system (mutual interest)
+
+---
+
+## 🚀 Deployment
+
+### Backend
+- Deploy on Render / Railway
+
+### Frontend
+- Deploy on Vercel / Netlify
+
+### Database
+- MongoDB Atlas
+
+---
+
+## 🙌 Author
+
+Built with ❤️ by Shashi Kumar
 ---
