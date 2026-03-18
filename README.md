@@ -36,3 +36,34 @@ A full-stack developer networking platform inspired by Tinder — built using th
 ```bash
 git clone <your-repo-url>
 cd devtinder
+---
+
+## 📡 API Endpoints
+
+### 🔐 Auth
+
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+
+---
+
+### 👤 Profile
+
+- `GET /api/profile/view`
+- `PUT /api/profile/edit`
+
+---
+
+### 🤝 Connections
+
+- `POST /api/connection/send/interested/:toUserId`
+- `POST /api/connection/review/accepted/:requestId`
+- `POST /api/connection/review/rejected/:requestId`
+
+---
+
+### 🧑‍💻 Feed
+
+- `GET /api/feed`
+
+---
