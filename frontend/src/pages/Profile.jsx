@@ -4,18 +4,14 @@ import API from "../utils/api";
 function Profile() {
   const [user, setUser] = useState(null);
 
-  // ✅ Fetch profile
-  const fetchProfile = async () => {
-    try {
-      const res = await API.get("/profile/view");
-      setUser(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   useEffect(() => {
-    fetchProfile();
+    API.get("/profile/view")
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
 
   // ✅ Handle change
@@ -28,7 +24,7 @@ function Profile() {
     try {
       const res = await API.put("/profile/edit", user);
       alert(res.data.message);
-    } catch (err) {
+    } catch {
       alert("Update failed");
     }
   };
