@@ -1,70 +1,100 @@
 import { useEffect, useState } from "react";
 import API from "../utils/api";
 
-function Profile() {
-  const [user, setUser] = useState(null);
+function Requests() {
+  const [requests, setRequests] = useState([]);
 
   useEffect(() => {
-    API.get("/profile/view")
+    API.get("/connection/requests/received")
       .then((res) => {
-        setUser(res.data);
+        setRequests(res.data);
       })
       .catch((err) => {
         console.error(err);
       });
   }, []);
 
-  // ✅ Handle change
-  const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
-
-  // ✅ Update profile
-  const handleUpdate = async () => {
+  // ✅ Handle accept/reject
+  const handleReview = async (status, requestId) => {
     try {
-      const res = await API.put("/profile/edit", user);
-      alert(res.data.message);
-    } catch {
-      alert("Update failed");
+      await API.post(`/connection/review/${status}/${requestId}`);
+
+      // remove from UI
+      setRequests((prev) =>
+        prev.filter((req) => req._id !== requestId)
+      );
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  if (!user) return <h2>Loading...</h2>;
-
   return (
     <div style={styles.container}>
-      <h2>My Profile</h2>
+      <h2>Connection Requests</h2>
 
-      <input name="firstName" value={user.firstName} onChange={handleChange} style={styles.input} />
-      <input name="lastName" value={user.lastName} onChange={handleChange} style={styles.input} />
-      <input name="age" value={user.age || ""} onChange={handleChange} style={styles.input} />
-      <input name="gender" value={user.gender || ""} onChange={handleChange} style={styles.input} />
-      <input name="bio" value={user.bio || ""} onChange={handleChange} style={styles.input} />
+      {requests.length === 0 && <p>No requests found</p>}
 
-      <button style={styles.button} onClick={handleUpdate}>
-        Update Profile
-      </button>
+      {requests.map((req) => {
+        const user = req.fromUserId;
+
+        return (
+          <div key={req._id} style={styles.card}>
+            <h3>{user.firstName} {user.lastName}</h3>
+            <p>{user.bio}</p>
+            <p><strong>Skills:</strong> {user.skills?.join(", ")}</p>
+
+            <div style={styles.actions}>
+              <button
+                style={styles.accept}
+                onClick={() => handleReview("accepted", req._id)}
+              >
+                Accept
+              </button>
+
+              <button
+                style={styles.reject}
+                onClick={() => handleReview("rejected", req._id)}
+              >
+                Reject
+              </button>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
 
 const styles = {
   container: {
-    display: "flex",
-    flexDirection: "column",
+    textAlign: "center",
+    marginTop: "30px",
+  },
+  card: {
     width: "300px",
-    margin: "40px auto",
-    gap: "10px",
+    margin: "20px auto",
+    padding: "20px",
+    borderRadius: "10px",
+    background: "#1e293b",
+    color: "white",
   },
-  input: {
-    padding: "10px",
+  actions: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: "10px",
   },
-  button: {
-    padding: "10px",
-    background: "#38bdf8",
+  accept: {
+    background: "#22c55e",
     border: "none",
+    padding: "8px",
+    cursor: "pointer",
+  },
+  reject: {
+    background: "#ef4444",
+    border: "none",
+    padding: "8px",
     cursor: "pointer",
   },
 };
 
-export default Profile;
+export default Requests;
