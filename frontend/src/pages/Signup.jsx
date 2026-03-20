@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../utils/api"; 
 
 function Signup() {
@@ -8,6 +9,7 @@ function Signup() {
     emailId: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -18,6 +20,7 @@ function Signup() {
     try {
       const res = await API.post("/auth/signup", form);
       alert(res.data.message);
+      navigate("/login");
     } catch (err) {
       alert(err.response?.data?.error || "Signup failed");
     }
