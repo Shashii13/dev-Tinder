@@ -4,18 +4,14 @@ import API from "../utils/api";
 function Requests() {
   const [requests, setRequests] = useState([]);
 
-  // ✅ Fetch received requests
-  const fetchRequests = async () => {
-    try {
-      const res = await API.get("/connection/requests/received");
-      setRequests(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   useEffect(() => {
-    fetchRequests();
+    API.get("/connection/requests/received")
+      .then((res) => {
+        setRequests(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
 
   // ✅ Handle accept/reject
